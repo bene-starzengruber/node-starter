@@ -1,9 +1,9 @@
 import app from './app';
 
-const PORT = 3000;
+import * as config from './config.json';
 
-app.listen(PORT, () => {
+app.listen(config.server.port, () => {
 
-  console.log(`Express server listening on port ${PORT}`);
+  console.log(`Express server listening on port ${config.server.port}`);
 
 });

@@ -1,6 +1,8 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
+import * as mongoose from 'mongoose';
 
+import * as config from './config.json';
 import { TodoRoutes } from './routes/todo-routes';
 
 class App {
@@ -12,6 +14,8 @@ class App {
     this.app = express();
     this.config();
 
+    this.setupMongoDb();
+
     this.routes = new TodoRoutes();
     this.routes.routes(this.app);
   }
@@ -19,6 +23,10 @@ class App {
   private config() {
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: false }));
+  }
+
+  private setupMongoDb() {
+    mongoose.connect(config.mongodb.url, { useNewUrlParser: true });
   }
 
 }

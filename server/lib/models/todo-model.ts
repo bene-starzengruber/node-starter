@@ -1,6 +1,6 @@
-import { Schema } from 'mongoose';
+import * as mongoose from 'mongoose';
 
-export const TodoSchema = new Schema({
+export const TodoSchema = new mongoose.Schema({
 
   text: {
     type: String,
