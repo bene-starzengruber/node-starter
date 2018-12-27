@@ -1,14 +1,19 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 
+import { TodoRoutes } from './routes/todo-routes';
 
 class App {
 
-  public app: express.Application;
+  app: express.Application;
+  routes: TodoRoutes;
 
   constructor() {
     this.app = express();
     this.config();
+
+    this.routes = new TodoRoutes();
+    this.routes.routes(this.app);
   }
 
   private config() {
