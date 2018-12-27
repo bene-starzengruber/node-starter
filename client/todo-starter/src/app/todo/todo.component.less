@@ -1,0 +1,37 @@
+:host {
+  display: flex;
+  background: var(--color-background);
+
+  padding: 0.5rem 1rem;
+    margin: 0.3rem 0;
+}
+
+.todo {
+
+  &_delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-todo-background);
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  &_id {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: var(--color-todo-background);
+  }
+
+  &_text {
+    margin-top: 0.5rem;
+    
+  }
+
+  &_wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 0 1rem;
+  }
+
+}

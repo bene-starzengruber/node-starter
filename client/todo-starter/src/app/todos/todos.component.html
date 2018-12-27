@@ -1,0 +1,7 @@
+<span class="todos_headline">todos</span>
+<input class="todos_input" type="text" [(ngModel)]="addTodoText" (keyup)="$event.keyCode == 13 ? addTodo() : {}">
+<div class="todos_add" (click)="addTodo()">add</div>
+
+<div class="todos_list">
+  <app-todo *ngFor="let todo of todos$ | async" class="todos_todo" [todo]="todo" (delete)="deleteTodo($event)"></app-todo>
+</div>
