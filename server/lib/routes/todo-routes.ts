@@ -1,6 +1,9 @@
 import { Request, Response, Application } from 'express';
+import { TodoController } from 'controllers/todo-controller';
 
 export class TodoRoutes {
+
+  controller = new TodoController();
 
   routes(app: Application) {
 
@@ -8,29 +11,9 @@ export class TodoRoutes {
       res.status(200).send({ message: 'GET request received!' })
     });
 
-    app.route('/todo').get(this.getAll).post(this.create);
-    app.route('/todo/:todoId').get(this.get).put(this.update).delete(this.delete);
+    app.route('/todo').get(this.controller.getAll).post(this.controller.create);
+    app.route('/todo/:todoId').get(this.controller.get).put(this.controller.update).delete(this.controller.delete);
 
-  }
-
-  private create(req: Request, res: Response) {
-    res.status(200).send({ message: 'create' });
-  }
-
-  private delete(req: Request, res: Response) {
-    res.status(200).send({ message: 'delete' });
-  }
-
-  private get(req: Request, res: Response) {
-    res.status(200).send({ message: 'get' });
-  }
-
-  private getAll(req: Request, res: Response) {
-    res.status(200).send({ message: 'getAll' });
-  }
-
-  private update(req: Request, res: Response) {
-    res.status(200).send({ message: 'update' });
   }
 
 }
