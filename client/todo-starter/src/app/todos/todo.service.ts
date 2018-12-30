@@ -22,8 +22,9 @@ export class TodoService {
     return this.http.delete(url);
   }
 
-  getTodos(): Observable<Todo[]> {
-    const url = `${this.BASE_URL}/todo`;
+  getTodos(search?: string): Observable<Todo[]> {
+    const url = `${this.BASE_URL}/todo` + (search ? `/search/${search}` : '');
+
     return this.http.get(url).pipe(
       map((rawTodos: any[]) => rawTodos.map(rawTodo => new Todo(rawTodo._id, rawTodo.text, rawTodo.deadline)))
     );

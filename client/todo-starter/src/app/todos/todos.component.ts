@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { tap, switchMap, takeUntil } from 'rxjs/operators';
+import { Observable, Subject, combineLatest, BehaviorSubject } from 'rxjs';
+import { tap, switchMap, takeUntil, debounceTime, } from 'rxjs/operators';
 
 import { Todo } from './todo';
 import { TodoService } from './todo.service';
@@ -14,6 +14,7 @@ import { TodoService } from './todo.service';
 export class TodosComponent implements OnInit {
 
   addTodoText: string = '';
+  search$ = new BehaviorSubject<string>('');
   todos$: Observable<Todo[]>;
 
   private loadTodos$ = new Subject();
@@ -21,7 +22,14 @@ export class TodosComponent implements OnInit {
   constructor(private todoService: TodoService) { }
 
   ngOnInit() {
-    this.todos$ = this.loadTodos$.pipe(switchMap(() => this.todoService.getTodos()));
+
+    const searchChanges$ = this.search$.pipe(debounceTime(100));
+
+    this.todos$ = combineLatest(this.loadTodos$, searchChanges$).pipe(
+      tap(([_, search]) => console.log('adsfb', search)),
+      switchMap(([_, search]) => this.todoService.getTodos(search || ''))
+    );
+
     setTimeout(() => this.loadTodos$.next());
   }
 
@@ -39,6 +47,10 @@ export class TodosComponent implements OnInit {
 
   deleteTodo(todo: Todo) {
     this.todoService.deleteTodo(todo).subscribe(deleted => this.loadTodos$.next());
+  }
+
+  searchChanged(searchValue: string) {
+    console.log(searchValue);
   }
 
 }

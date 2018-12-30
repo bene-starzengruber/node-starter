@@ -23,7 +23,10 @@ export class TodoController {
   }
 
   getAll(req: Request, res: Response) {
-    Todo.find((err, todos) => err ? res.send(err) : res.json(todos));
+    const searchValue = req.params.searchValue || '';
+    const query = { text: { '$regex': searchValue, '$options': 'i' } };
+
+    Todo.find(query, (err, todos) => err ? res.send(err) : res.json(todos));
   }
 
   update(req: Request, res: Response) {
